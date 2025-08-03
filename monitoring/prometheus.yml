@@ -7,20 +7,24 @@ rule_files:
   # - "second_rules.yml"
 
 scrape_configs:
+  # Prometheus tự monitor chính nó
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
 
+  # Spring Boot Backend
   - job_name: 'spring-boot-backend'
     static_configs:
       - targets: ['backend:5000']
     metrics_path: '/actuator/prometheus'
     scrape_interval: 10s
 
+  # Node Exporter (nếu cần monitor hệ thống)
   - job_name: 'node-exporter'
     static_configs:
       - targets: ['node-exporter:9100']
 
+  # cAdvisor (nếu cần monitor Docker containers)
   - job_name: 'cadvisor'
     static_configs:
       - targets: ['cadvisor:8080']
