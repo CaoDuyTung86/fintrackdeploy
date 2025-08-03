@@ -8,7 +8,7 @@ pipeline {
         BACKEND_CONTAINER = 'backend-container'
         FRONTEND_CONTAINER = 'frontend-container'
         SONAR_HOST_URL = 'http://localhost:9000'
-        SONAR_TOKEN = credentials('84fc5e07-04c3-4ac9-b678-c6721b3d707c') 
+        SONAR_TOKEN = credentials('sonar-token-id')
     }
 
     stages {
@@ -63,17 +63,18 @@ pipeline {
                                     sonar.java.binaries=target/classes
                                     sonar.java.test.binaries=target/test-classes
                                     sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-                                    sonar.host.url=${SONAR_HOST_URL}
+                                    sonar.host.url=http://localhost:9000
                                     sonar.login=${SONAR_TOKEN}
                                     EOF
                                 '''
                                 
+                                // Chạy SonarQube analysis
                                 withSonarQubeEnv('SonarQube') {
                                     sh '''
                                         mvn clean verify sonar:sonar \
                                         -Dsonar.projectKey=fintrack-backend \
                                         -Dsonar.host.url=http://localhost:9000 \
-                                        -Dsonar.login=84fc5e07-04c3-4ac9-b678-c6721b3d707c
+                                        -Dsonar.login=${SONAR_TOKEN}
                                     '''
                                 }
                             }
@@ -94,7 +95,7 @@ pipeline {
                                     sonar.sources=src
                                     sonar.tests=src
                                     sonar.javascript.lcov.reportPaths=coverage/lcov.info
-                                    sonar.host.url=${SONAR_HOST_URL}
+                                    sonar.host.url=http://localhost:9000
                                     sonar.login=${SONAR_TOKEN}
                                     EOF
                                 '''
@@ -105,7 +106,7 @@ pipeline {
                                         sonar-scanner \
                                         -Dsonar.projectKey=fintrack-frontend \
                                         -Dsonar.sources=src \
-                                        -Dsonar.host.url=${SONAR_HOST_URL} \
+                                        -Dsonar.host.url=http://localhost:9000 \
                                         -Dsonar.login=${SONAR_TOKEN}
                                     '''
                                 }
@@ -210,5 +211,4 @@ pipeline {
         }
     }
 }
-
 
