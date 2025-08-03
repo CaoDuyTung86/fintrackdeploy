@@ -59,7 +59,6 @@ pipeline {
                                     sonar.projectName=FinTrack Backend
                                     sonar.projectVersion=1.0
                                     sonar.sources=src/main/java
-                                    sonar.tests=src/test/java
                                     sonar.java.binaries=target/classes
                                     sonar.java.test.binaries=target/test-classes
                                     sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
@@ -93,7 +92,6 @@ pipeline {
                                     sonar.projectName=FinTrack Frontend
                                     sonar.projectVersion=1.0
                                     sonar.sources=src
-                                    sonar.tests=src
                                     sonar.javascript.lcov.reportPaths=coverage/lcov.info
                                     sonar.host.url=http://localhost:9000
                                     sonar.login=${SONAR_TOKEN}
