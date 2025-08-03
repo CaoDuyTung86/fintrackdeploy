@@ -68,13 +68,12 @@ pipeline {
                                     EOF
                                 '''
                                 
-                                // Chạy SonarQube analysis
                                 withSonarQubeEnv('SonarQube') {
                                     sh '''
                                         mvn clean verify sonar:sonar \
                                         -Dsonar.projectKey=fintrack-backend \
-                                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                                        -Dsonar.login=${SONAR_TOKEN}
+                                        -Dsonar.host.url=http://localhost:9000 \
+                                        -Dsonar.login=84fc5e07-04c3-4ac9-b678-c6721b3d707c
                                     '''
                                 }
                             }
@@ -211,4 +210,5 @@ pipeline {
         }
     }
 }
+
 
