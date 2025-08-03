@@ -99,7 +99,8 @@ pipeline {
                                     sonar.login=${SONAR_TOKEN}
                                     EOF
                                 '''
-                                sh 'npm install -g sonarqube-scanner'
+                                sh 'npm install sonarqube-scanner --save-dev'
+                                sh 'npx sonarqube-scanner'
                                 
                                 withSonarQubeEnv('SonarQube') {
                                     sh '''
