@@ -3,12 +3,23 @@ pipeline {
     stages {
         stage('Git Pull') {
             steps {
-                git 'https://github.com/tvann00046/fe-fintrack-master.git'
+                git 'https://github.com/CaoDuyTung86/fe-fintrack-master.git'
             }
         }
         stage('Install & Build') {
             steps {
                 sh 'npm install && npm run build'
+                sh 'npm install sonarqube-scanner --save-dev'
+                
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        npx sonarqube-scanner \
+                        -Dsonar.projectKey=fintrack-frontend \
+                        -Dsonar.sources=src \
+                        -Dsonar.host.url=${SONAR_HOST_URL} \
+                        -Dsonar.login=${SONAR_TOKEN}
+                    '''
+                }
             }
         }
         stage('Build Docker Image') {
