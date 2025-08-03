@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages {
+        stage('Git Pull') {
+            steps {
+                git 'https://github.com/tvann00046/be-fintrack-master.git'
+            }
+        }
+        stage('Build JAR') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t fintrack-backend .'
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                sh '''
+                    docker rm -f fintrack-backend || true
+                    docker run -d -p 5000:5000 --name fintrack-backend fintrack-backend
+                '''
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages {
+        stage('Git Pull') {
+            steps {
+                git 'https://github.com/tvann00046/fe-fintrack-master.git'
+            }
+        }
+        stage('Install & Build') {
+            steps {
+                sh 'npm install && npm run build'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t fintrack-frontend .'
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                sh '''
+                    docker rm -f fintrack-frontend || true
+                    docker run -d -p 3000:80 --name fintrack-frontend fintrack-frontend
+                '''
+            }
+        }
+    }
+}

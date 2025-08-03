@@ -1,0 +1,42 @@
+services:
+  backend:
+    build:
+      context: ./be-fintrack-master
+    container_name: backend-container
+    ports:
+      - "5000:5000"
+    networks:
+      - fintrack-net
+
+  frontend:
+    build:
+      context: ./fe-fintrack-master
+      args:
+        - VITE_API_BASE_URL=http://backend:5000
+    container_name: frontend-container
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - fintrack-net
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports:
+    - "9000:9000"
+    environment:
+    - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+    - sonarqube_data:/opt/sonarqube/data
+    - sonarqube_logs:/opt/sonarqube/logs
+    - sonarqube_extensions:/opt/sonarqube/extensions
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
+
+networks:
+  fintrack-net:
