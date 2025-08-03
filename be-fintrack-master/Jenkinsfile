@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Git Pull') {
             steps {
-                git 'https://github.com/tvann00046/be-fintrack-master.git'
+                git 'https://github.com/CaoDuyTung86/be-fintrack-master.git'
             }
         }
         stage('Build JAR') {
