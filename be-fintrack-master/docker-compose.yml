@@ -29,7 +29,10 @@ services:
       - fintrack-network
     restart: always
     healthcheck:
-      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "ProudOfYou12!", "-Q", "SELECT 1" ]
+      test: [
+        "CMD-SHELL",
+        "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ProudOfYou12! -Q \"SELECT 1\""
+      ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -37,4 +40,5 @@ services:
 networks:
   fintrack-network:
     driver: bridge
+
 
