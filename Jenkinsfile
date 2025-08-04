@@ -40,6 +40,7 @@ pipeline {
         stage('Start SonarQube') {
             steps {
                 sh '''
+                    docker rm -f sonarqube || true
                     docker-compose up -d sonarqube
                     echo "Waiting for SonarQube to start..."
                     sleep 30
@@ -210,4 +211,5 @@ pipeline {
         }
     }
 }
+
 
