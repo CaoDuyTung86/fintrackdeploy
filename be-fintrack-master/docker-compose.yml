@@ -10,7 +10,7 @@ services:
       - db
     environment:
       environment:
-      SPRING_DATASOURCE_URL: jdbc:sqlserver://db:1433;databaseName=fintrack_db;instanceName=SQLEXPRESS;encrypt=true;trustServerCertificate=true
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://db:1433;databaseName=fintrack_db;encrypt=true;trustServerCertificate=true
       SPRING_DATASOURCE_USERNAME: sa
       SPRING_DATASOURCE_PASSWORD: ProudOfYou12!
     networks:
@@ -32,5 +32,6 @@ services:
 networks:
   fintrack-network:
     driver: bridge
+
 
 
