@@ -7,7 +7,8 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:sqlserver://db:1433;databaseName=fintrack_db;encrypt=true;trustServerCertificate=true
       SPRING_DATASOURCE_USERNAME: sa
@@ -27,7 +28,13 @@ services:
     networks:
       - fintrack-network
     restart: always
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "ProudOfYou12!", "-Q", "SELECT 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   fintrack-network:
     driver: bridge
+
