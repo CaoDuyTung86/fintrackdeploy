@@ -35,5 +35,10 @@ services:
     networks:
       - fintrack-net
 
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
+
 networks:
   fintrack-net:
